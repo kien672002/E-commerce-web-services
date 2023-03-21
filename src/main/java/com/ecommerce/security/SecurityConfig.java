@@ -25,8 +25,12 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
+    final
     JwtAuthEntryPoint jwtAuthEntryPoint;
+    @Autowired
+    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint) {
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
+    }
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,7 +45,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**", "/api/v1/auth").permitAll()
+                .requestMatchers("/api/v1/**").permitAll()
                 // replace by using annotation
 //                .requestMatchers("/api/v1/users/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()

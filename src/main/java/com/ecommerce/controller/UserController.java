@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @PreAuthorize(value = "hasAuthority('ADMIN')")
 public class UserController {
-    @Autowired
+    final
     UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("")
     ResponseEntity<ResponseObject> getUsers() {

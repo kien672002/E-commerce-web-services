@@ -24,12 +24,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    @Autowired
+    final
     UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepositpry;
-    @Autowired
+    final
+    RoleRepository roleRepository;
+    final
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public List<UserDTO> findAll() {
         return userRepository.findAll()
@@ -41,8 +49,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDTO save(UserCreationDTO userCreationDTO) throws DataIntegrityViolationException {
         userCreationDTO.setPassword(passwordEncoder.encode(userCreationDTO.getPassword()));
-        Role role = roleRepositpry.findByName("USER");
-        User user = UserMapper.toEntiy(userCreationDTO, Collections.singletonList(role));
+        Role role = roleRepository.findByName("USER");
+        User user = UserMapper.toEntity(userCreationDTO, Collections.singletonList(role));
         return UserMapper.toDTO(userRepository.save(user));
     }
 

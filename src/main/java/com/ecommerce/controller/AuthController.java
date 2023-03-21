@@ -21,10 +21,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/auth")
 @CrossOrigin
 public class AuthController {
-    @Autowired
+    final
     UserService userService;
-    @Autowired
+    final
     AuthenticationService authenticationService;
+    @Autowired
+    public AuthController(UserService userService, AuthenticationService authenticationService) {
+        this.userService = userService;
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/login")
     ResponseEntity<ResponseObject> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
@@ -48,7 +53,7 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseObject("Authenticaton failed", null));
+                    .body(new ResponseObject("Authentication failed", null));
         }
     }
 

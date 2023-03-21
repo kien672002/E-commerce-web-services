@@ -12,10 +12,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    @Autowired
+    final
     AuthenticationManager authenticationManager;
-    @Autowired
+    final
     JWTProvider jwtProvider;
+
+    @Autowired
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, JWTProvider jwtProvider) {
+        this.authenticationManager = authenticationManager;
+        this.jwtProvider = jwtProvider;
+    }
 
     @Override
     public String authenticateUser(UserLoginDTO userLoginDTO) {

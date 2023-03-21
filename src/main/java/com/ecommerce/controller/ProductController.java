@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
-    @Autowired
+    final
     ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("")
     ResponseEntity<ResponseObject> findAll() {
@@ -42,6 +48,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize(value = "hasAuthority('USER')")
     @PostMapping("")
     ResponseEntity<ResponseObject> save(@ModelAttribute ProductDTO productDTO,
                                         @RequestParam MultipartFile image) {
@@ -53,13 +60,14 @@ public class ProductController {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(new ResponseObject(e.getMessage(), null));
-        } catch (IOException e){
+        } catch (IOException e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseObject("Failed to save file: " + e.getMessage(),null));
+                    .body(new ResponseObject("Failed to save file: " + e.getMessage(), null));
         }
     }
 
+    @PreAuthorize(value = "hasAuthority('USER')")
     @PutMapping("/{id}")
     ResponseEntity<ResponseObject> update(@PathVariable Long id,
                                           @ModelAttribute ProductDTO productDTO,
@@ -68,6 +76,7 @@ public class ProductController {
         return this.save(productDTO, image);
     }
 
+    @PreAuthorize(value = "hasAuthority('USER')")
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseObject> deleteById(@PathVariable Long id) {
         try {

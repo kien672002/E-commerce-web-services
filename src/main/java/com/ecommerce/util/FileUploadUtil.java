@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class FileUploadUtil {
     private static FileUploadUtil fileUploadUtil;
-    private final String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/fileUploaded/";
+    private final String uploadDir = "/src/main/resources/static/fileUploaded/";
 
     private FileUploadUtil() {
     }
@@ -28,8 +28,8 @@ public class FileUploadUtil {
             originalName = "file";
         String extension = originalName.substring(originalName.lastIndexOf('.'));
         String fileName = UUID.randomUUID() + extension;
-        Path path = Paths.get(uploadDir + fileName);
+        Path path = Paths.get(System.getProperty("user.dir") + uploadDir + fileName);
         Files.write(path, bytes);
-        return path.toString();
+        return uploadDir + fileName;
     }
 }

@@ -23,7 +23,7 @@ public class UserMapper {
         return userDTO;
     }
 
-    static public User toEntiy(UserCreationDTO userCreationDTO, List<Role> roles) {
+    static public User toEntity(UserCreationDTO userCreationDTO, List<Role> roles) {
         User user = new User();
         user.setId(userCreationDTO.getId());
         user.setEmail(userCreationDTO.getEmail());

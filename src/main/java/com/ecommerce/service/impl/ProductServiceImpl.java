@@ -20,10 +20,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
+    final
     ProductRepository productRepository;
-    @Autowired
+    final
     CategoryRepository categoryRepository;
+
+    @Autowired
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public ProductDTO save(ProductDTO productDTO, MultipartFile image) throws EntityNotFoundException, IOException {

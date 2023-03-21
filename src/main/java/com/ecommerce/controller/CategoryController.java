@@ -15,8 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
-    @Autowired
+    final
     CategoryService categoryService;
+
+    @Autowired
+    CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GetMapping("")
     public ResponseEntity<ResponseObject> getCategories() {
@@ -60,7 +65,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateById(@PathVariable Long id,
-                                              @RequestBody CategoryDTO categoryDTO) {
+                                                     @RequestBody CategoryDTO categoryDTO) {
         categoryDTO.setId(id);
         return this.save(categoryDTO);
     }

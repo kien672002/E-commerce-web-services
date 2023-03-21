@@ -30,15 +30,19 @@ public class EcommerceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserCreationDTO userCreationDTO = new UserCreationDTO();
+        try {
+            UserCreationDTO userCreationDTO = new UserCreationDTO();
 
-        userCreationDTO.setUsername("admin");
-        userCreationDTO.setPassword("admin");
-        userCreationDTO.setEmail("admin@admin.com");
+            userCreationDTO.setUsername("admin");
+            userCreationDTO.setPassword("admin");
+            userCreationDTO.setEmail("admin@admin.com");
 
-        userCreationDTO.setPassword(passwordEncoder.encode(userCreationDTO.getPassword()));
-        List<Role> roles = List.of(roleRepository.findByName("ADMIN"), roleRepository.findByName("USER"));
-        User user = UserMapper.toEntiy(userCreationDTO, roles);
-        userRepository.save(user);
+            userCreationDTO.setPassword(passwordEncoder.encode(userCreationDTO.getPassword()));
+            List<Role> roles = List.of(roleRepository.findByName("ADMIN"), roleRepository.findByName("USER"));
+            User user = UserMapper.toEntity(userCreationDTO, roles);
+            userRepository.save(user);
+        } catch (Exception e) {
+            // If admin has been created, do nothing
+        }
     }
 }
