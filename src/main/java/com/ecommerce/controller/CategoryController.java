@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class CategoryController {
         }
     }
 
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     @PostMapping("")
     public ResponseEntity<ResponseObject> save(@RequestBody CategoryDTO categoryDTO) {
         try {
@@ -63,6 +65,7 @@ public class CategoryController {
         }
     }
 
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateById(@PathVariable Long id,
                                                      @RequestBody CategoryDTO categoryDTO) {
@@ -70,6 +73,7 @@ public class CategoryController {
         return this.save(categoryDTO);
     }
 
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable Long id) {
         try {

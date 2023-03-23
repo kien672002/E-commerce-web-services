@@ -48,7 +48,7 @@ public class ProductController {
         }
     }
 
-    @PreAuthorize(value = "hasAuthority('USER')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     @PostMapping("")
     ResponseEntity<ResponseObject> save(@ModelAttribute ProductDTO productDTO,
                                         @RequestParam MultipartFile image) {
@@ -67,7 +67,7 @@ public class ProductController {
         }
     }
 
-    @PreAuthorize(value = "hasAuthority('USER')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     ResponseEntity<ResponseObject> update(@PathVariable Long id,
                                           @ModelAttribute ProductDTO productDTO,
@@ -76,7 +76,7 @@ public class ProductController {
         return this.save(productDTO, image);
     }
 
-    @PreAuthorize(value = "hasAuthority('USER')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseObject> deleteById(@PathVariable Long id) {
         try {
